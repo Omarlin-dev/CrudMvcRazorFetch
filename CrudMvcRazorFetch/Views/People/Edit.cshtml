@@ -1,0 +1,73 @@
+﻿@model CrudMvcRazorFetch.Models.viewModels.peopleViewModels
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form>
+
+    @Html.HiddenFor(d => d.Id, new {id = "Id"})
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(d => d.Nombre)
+            @Html.TextBoxFor(d => d.Nombre, "", new { id = "name" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Apellido)
+            @Html.TextBoxFor(d => d.Apellido, "", new { id = "last" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Edad)
+            @Html.TextBoxFor(d => d.Edad, "", new { id = "age" })
+        </div>
+        <div class="form-group">
+            <label>Fecha de Nacimiento</label>
+            <input type="date" id="date" name="FechaNacimiento" />
+        </div>
+
+        <div class="right">
+            <input class="btn btn-success" type="button" onclick="jsEdit()" value="Guardar" />
+        </div>
+    </div>
+</form>
+
+<script>
+    var url = "@Url.Content("~/People/Update")";
+    var nombre = document.getElementById("name");
+    var apellido = document.getElementById("last");
+    var date = document.getElementById("date");
+    var edad = document.getElementById("age");
+    var id = document.getElementById("Id");
+
+    function jsEdit() {
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                Id: id.value,
+                Nombre: nombre.value,
+                Edad: edad.value,
+                Apellido: apellido.value,
+                FechaNacimiento: date.value
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (response.ok)
+                    return response.text();
+                 else
+                    alert("Error al Ejecutar");
+                })
+            .then((data) => {
+                if (data != "1")
+                    alert(data)
+                else {
+                    document.location.href = "@Url.Content("~/People/")";
+                }
+                })
+    }
+</script>

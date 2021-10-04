@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "People";
+}
+
+<h2>Bienvenido a @ViewBag.Title!!</h2>
+
+<button type="button" onclick="Get();" class="btn btn-primary">Refrescar</button>
+<button type="button" onclick="document.location.href='@Url.Content("~/People/New")'" class="btn btn-success">Nuevo</button>
+
+<div id="divLista" style="border: 1px solid #999;">
+
+</div>
+
+<script>
+    UrlGet = "@Url.Content("~/People/List")"
+
+    var div =document.getElementById("divLista");
+
+    function Get() {
+        fetch(UrlGet)
+            .then(function (response) {
+                return response.text();
+            })
+            .then((data) => {
+                div.innerHTML = data;
+            })
+    }
+    Get();
+
+    var urlDelete = "@Url.Content("~/People/Delete")";
+
+    function jsDelete(Id) {
+        fetch(urlDelete, {
+            method: "POST",
+            body: JSON.stringify({
+                Id: Id              
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (response.ok)
+                    return response.text();
+                 else
+                    alert("Error al Ejecutar");
+                })
+            .then((data) => {
+                if (data != "1")
+                    alert(data)
+                else {
+                    Get();
+                }
+            })
+
+        if (confirm("Estas seguro que deseas eliminar este registro"))
+            return true;
+        else
+            return false;
+    }
+</script>
