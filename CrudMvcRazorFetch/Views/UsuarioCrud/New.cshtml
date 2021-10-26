@@ -1,0 +1,74 @@
+﻿@model CrudMvcRazorFetch.Models.viewModels.UserViewModels
+@{
+    ViewBag.Title = "Nuevo";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form>
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(d => d.UserName)
+            @Html.TextBoxFor(d => d.UserName, "", new { id = "nombre" })3
+            @Html.ValidationMessageFor(d => d.UserName, "", new { @class = "danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Password)
+            <input type="password" name="Password" id="pass" />
+            @Html.ValidationMessageFor(d => d.Password, "", new { @class = "danger" })
+        </div>
+        <div class="form-group">
+            <label>Usuario</label><br />
+            <select name="IdPeople" id="idpeople" class="form-control">
+                <option value="">Seleccione</option>
+                @foreach (var ouser in Model.peopleUser)
+                {
+                    <option value="@ouser.id">@ouser.name</option>
+                }
+            </select>
+            @Html.ValidationMessageFor(d => d.IdPeople, "", new { @class = "danger" })
+
+        </div>
+
+        <div class="right">
+            <input class="btn btn-success" type="button" onclick="jsAdd()" value="Guardar" />
+        </div>
+    </div>
+</form>
+
+
+<script>
+    var url = "@Url.Content("~/UsuarioCrud/Save")";
+    var nombre = document.getElementById("nombre");
+    var pass = document.getElementById("pass");
+    var idpeople = document.getElementById("idpeople");
+
+    function jsAdd() {
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                UserName: nombre.value,
+                Password: pass.value,
+                IdPeople: idpeople.value
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (response.ok)
+                    return response.text();
+                 else
+                    alert("Error al Ejecutar");
+                })
+            .then((data) => {
+                if (data != "1")
+                    alert(data)
+                else {
+                    document.location.href = "@Url.Content("~/UsuarioCrud/")";
+                }
+                })
+    }
+
+</script>

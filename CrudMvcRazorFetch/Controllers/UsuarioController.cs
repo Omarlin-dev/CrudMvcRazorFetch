@@ -26,7 +26,7 @@ namespace CrudMvcRazorFetch.Controllers
                 using (CrudMvcFetchEntities1 db = new CrudMvcFetchEntities1())
                 {
                     var oUser = (from d in db.User
-                                 where d.UserName.ToUpper() == model.userName.Trim().ToUpper() && d.Password.ToUpper() == model.pass.Trim().ToUpper()
+                                 where d.UserName.ToUpper() == model.UserName.Trim().ToUpper() && d.Password.ToUpper() == model.Password.Trim().ToUpper()
                                  select d).FirstOrDefault();
                     if (oUser == null)
                     {
@@ -35,6 +35,7 @@ namespace CrudMvcRazorFetch.Controllers
                     }
 
                     Session["User"] = oUser;
+                    Session["userTitulo"] = oUser.UserName;
                 }
 
                 return RedirectToAction("Index", "People");

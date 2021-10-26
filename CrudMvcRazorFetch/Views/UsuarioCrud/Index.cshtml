@@ -1,19 +1,20 @@
 ﻿
 @{
-    ViewBag.Title = "People";
+    ViewBag.Title = "Usuario";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
 }
 
 <h2>Bienvenido @Session["userTitulo"]!!</h2>
 
 <button type="button" onclick="Get();" class="btn btn-primary">Refrescar</button>
-<button type="button" onclick="document.location.href='@Url.Content("~/People/New")'" class="btn btn-success">Nuevo</button>
+<button type="button" onclick="document.location.href='@Url.Content("~/UsuarioCrud/New")'" class="btn btn-success">Nuevo</button>
 
 <div id="divLista" style="border: 1px solid #999;">
 
 </div>
 
 <script>
-    UrlGet = "@Url.Content("~/People/List")"
+    UrlGet = "@Url.Content("~/UsuarioCrud/List")"
 
     var div =document.getElementById("divLista");
 
@@ -28,7 +29,7 @@
     }
     Get();
 
-    var urlDelete = "@Url.Content("~/People/Delete")";
+    var urlDelete = "@Url.Content("~/UsuarioCrud/Delete")";
 
     function jsDelete(Id) {
         fetch(urlDelete, {

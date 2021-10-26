@@ -1,0 +1,31 @@
+﻿@model List<CrudMvcRazorFetch.Models.viewModels.UserViewModels>
+@{
+    ViewBag.Title = "Lista";
+    Layout = null;
+}
+
+
+<table class="table table-bordered table-hover">
+
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nombre Usuario</th>
+            <th>Id people</th>
+            
+        </tr>
+    </thead>
+
+    @foreach (var oModel in Model)
+    {
+        <tr>
+            <td>@oModel.Id</td>
+            <td>@oModel.UserName</td>
+            <td>@oModel.IdPeople</td>
+            <td>
+                <input onclick="document.location.href = '@Url.Content("~/UsuarioCrud/Edit?Id="+@oModel.Id)'" type="button" value="Editar" class="btn btn-warning" />
+                <input onclick="return jsDelete(@oModel.Id)" type="button" value="Eliminar" class="btn btn-danger" />
+            </td>
+        </tr>
+    }
+</table>
